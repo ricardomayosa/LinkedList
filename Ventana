@@ -1,0 +1,98 @@
+package proyectolistaligada;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+/**
+ *
+ * @author José Alonso
+ */
+public class Ventana extends JFrame implements ActionListener {
+
+    ListaLigadaSencilla myList;
+    int FRAME_WIDTH = 500;
+    int FRAME_HEIGHT = 400;
+    int FRAME_X_ORIGIN = 150;
+    int FRAME_Y_ORIGIN = 250;
+    JMenu actions;
+    JTextArea textArea;
+    String NEWLINE = System.getProperty("line.separator");
+    
+    public Ventana(){
+        Container contentPane;
+        JMenuItem item;
+        
+        myList = new ListaLigadaSencilla();
+        //set the frame properties
+        setTitle     ("Linked Lists");
+        setSize      (FRAME_WIDTH, FRAME_HEIGHT);
+        setResizable (false);
+        setLocation  (FRAME_X_ORIGIN, FRAME_Y_ORIGIN);
+
+        contentPane = getContentPane( );
+        contentPane.setLayout(null);
+        contentPane.setBackground( Color.white );
+        //and add them to the menubar
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        actions = new JMenu("Actions");
+		
+	item = new JMenuItem("Add One Element");
+	item.addActionListener( this );
+        actions.add(item);
+        item = new JMenuItem("Delete One Element");
+	item.addActionListener( this );
+        actions.add(item);
+        item = new JMenuItem("Show Contents");
+	item.addActionListener( this );
+        actions.add(item);
+        item = new JMenuItem("Search Contents");
+	item.addActionListener( this );
+        actions.add(item);
+        actions.addSeparator();
+        item = new JMenuItem("Exit");
+	item.addActionListener( this );
+        actions.add(item);	
+		
+	menuBar.add(actions);
+
+        textArea = new JTextArea();
+        JScrollPane scrollText= new JScrollPane(textArea);
+        scrollText.setBounds(0, 0, FRAME_WIDTH-5, FRAME_HEIGHT-51);
+        //scrollText.setBorder(BorderFactory.createLineBorder(Color.red));
+        contentPane.add(scrollText);
+        textArea.setEditable(false);
+
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+    public void actionPerformed(ActionEvent event) {
+    	String  menuName, input;
+
+        menuName = event.getActionCommand();
+
+        if(menuName.equals("Exit"))
+        	System.exit(0);
+        else if (menuName.equals("Add One Element")){
+            input = JOptionPane.showInputDialog(null,"Type data element to insert:");
+            myList.agregarOrdenadoD(Integer.parseInt(input));
+        }
+        else if (menuName.equals("Delete One Element")){
+            input = JOptionPane.showInputDialog(null,"Type data element to delete:");
+            myList.eliminarNodoD(Integer.parseInt(input));
+        }
+        else if (menuName.equals("Show Contents")){
+            textArea.append(myList.desplegarLista()+NEWLINE);
+        }
+        else if (menuName.equals("Search Contents")){
+            input = JOptionPane.showInputDialog(null,"Type data element to delete:");
+            if(myList.buscarNodo(Integer.parseInt(input))!= null)
+                textArea.append(NEWLINE+"The element "+input+" was found in the list!"+NEWLINE);
+            else
+                textArea.append(NEWLINE+"The element "+input+" was NOT found in the list : ( "+NEWLINE);
+        }
+    }
+
+    private void addText(String newline) {
+        textArea.append(newline + NEWLINE);
+    }
+}
