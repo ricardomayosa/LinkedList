@@ -1,0 +1,154 @@
+public class ListaLigadaSencilla {
+    
+    //atributos
+    Nodo head;
+    
+    //Main
+    public static void main(String[] args) {
+        Ventana frame = new Ventana();
+        frame.setVisible(true);
+        ListaLigadaSencilla miLista;
+        miLista = new ListaLigadaSencilla();
+    }
+    
+    //Constructor
+    public ListaLigadaSencilla() {
+        head=null;
+    }
+    
+    //Metodos
+    
+    /*Este metodo recibe el entero a agregar a la lista, crea el nodo y los
+    cuelga al final de la lista*/
+    void agregarNodo(int d) {
+        Nodo nuevo, temp;
+        nuevo= new Nodo(d);
+        if(head==null) //lista vacia
+            head=nuevo; //nuevo es la cabeza de la lista
+        else {
+            temp=head; //temp inicia su recorrido en temp
+            while(temp.sig != null)
+                temp=temp.sig;
+            temp.sig=nuevo;
+        }
+    }
+    
+    void eliminarNodo(int d) {
+        Nodo temp, prev;
+        if(head!=null) {
+            temp=head;
+            prev=head;
+            while(temp!=null && temp.dato<d) {
+                prev=temp;
+                temp=temp.sig;
+            }
+            if(temp!=null && temp.dato==d) {
+                if(temp==head)
+                    head=temp.sig;
+                else
+                    prev.sig=temp.sig;
+            }
+            else {
+                //d not in the list
+            }
+        }
+    }
+
+    Nodo buscarNodo(int d) {
+        Nodo resultado=null;
+        Nodo tem=head;
+        while(tem!=null && tem.get_dato() !=d ) {
+            tem=tem.get_sig();
+        }
+        if(tem.get_dato()==(d))
+            resultado=tem;
+        return resultado;
+    }
+    
+    String desplegarLista() {
+        String contenido="";
+        Nodo tem=head;
+        while(tem != null) {
+            contenido = contenido + tem.dato + " ";
+            tem = tem.sig;
+        }
+        return contenido;
+    }
+    
+    void agregarOrdenado(int d) {
+        Nodo nuevo, temp, prev;
+        nuevo=new Nodo(d);
+        if(head==null)
+            head = nuevo; //nuevo es la cabeza
+        else {
+            temp=head;
+            prev=head;
+            while(temp!=null && nuevo.dato>temp.dato) {
+                prev=temp;
+                temp=temp.sig;
+            }
+            nuevo.sig=temp;
+            if(nuevo.dato < head.dato)
+                head=nuevo;
+            else
+                prev.sig=nuevo;
+        }
+    }
+    
+    void agregarOrdenadoD(int d) {
+        Nodo nuevo, temp;
+        nuevo=new Nodo(d);
+        if(head==null)
+            head = nuevo; //nuevo es la cabeza
+        else {
+            temp=head;
+            while(temp.sig!=null && nuevo.dato>temp.dato) {
+                temp=temp.sig;
+            }
+            if(temp==head && nuevo.dato<head.dato) {
+                head=nuevo;
+                temp.prev=nuevo;
+                nuevo.sig=temp;
+            }
+            else if (temp.sig==null && temp.dato<nuevo.dato) {
+                nuevo.prev=temp;
+                temp.sig=nuevo;
+                nuevo.sig=null;
+            }
+            else {
+                nuevo.prev=temp.prev;
+                temp.prev.sig=nuevo;
+                nuevo.sig=temp;
+                temp.prev=nuevo;
+            }
+        }
+    }
+    
+    void eliminarNodoD(int d) {
+        Nodo temp, temp2, temp3;
+        if(head!=null) {
+            temp=head;
+            temp2=head;
+            temp3=head;
+            while(temp!=null && temp.dato<d) {
+                temp2=temp;
+                temp=temp.sig;
+            }
+            if(temp!=null && temp.dato==d) {
+                if(temp==head)
+                    head=temp.sig;
+                else {
+                    if(temp.sig==null) {
+                        temp2.sig=null;
+                        temp.prev=null;
+                    }
+                    else {
+                        temp3=temp.sig;
+                        temp3.prev=temp2;
+                        temp2.sig=temp.sig;
+                    }
+                }
+            }
+        }
+    }
+}
